@@ -15,22 +15,23 @@ import {
 export default class TsuruCountdown extends Component {
   constructor(props) {
     super(props)
-      this.state = {
-        counter: 0
-      }
+    this.finishTime = new Date(2017, 2, 2).getTime()
+    this.state = {
+      remainingTime: (this.finishTime - new Date().getTime()) / 1000
+    }
   }
 
   componentDidMount() {
-    const binded = this.updateCounter.bind(this)
+    const binded = this.updateRemainingTime.bind(this)
     setInterval(binded, 1000)
   }
 
-  updateCounter() {
-    this.setState({ counter: this.state.counter + 1})
+  updateRemainingTime() {
+    this.setState({remainingTime: (this.finishTime - new Date().getTime()) / 1000})
   }
 
-  remainingTime() {
-    let remainingSeconds = (new Date(2017, 2, 2).getTime() - new Date().getTime()) / 1000
+  formatRemainingTime() {
+    let remainingSeconds = this.state.remainingTime
     const days = Math.floor(remainingSeconds / (60 * 60 * 24))
     remainingSeconds -= days * 24 * 60 * 60
     const hours = Math.floor(remainingSeconds / (60 * 60))
@@ -48,7 +49,7 @@ export default class TsuruCountdown extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.time}>
-          {this.remainingTime()}
+          {this.formatRemainingTime()}
         </Text>
       </View>
     );
