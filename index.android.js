@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   time: {
-    fontSize: 100,
+    fontSize: 90,
     textAlign: 'center',
   },
 });
