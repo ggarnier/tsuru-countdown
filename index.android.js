@@ -38,7 +38,7 @@ export default class TsuruCountdown extends Component {
     remainingSeconds -= hours * 60 * 60
     const minutes = Math.floor(remainingSeconds / 60)
     const seconds = Math.floor(remainingSeconds - (minutes * 60))
-    return `${this.leftPad(days)}:${this.leftPad(hours)}:${this.leftPad(minutes)}:${this.leftPad(seconds)}`
+    return `${this.leftPad(days)}d ${this.leftPad(hours)}:${this.leftPad(minutes)}:${this.leftPad(seconds)}`
   }
 
   leftPad(value) {
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   time: {
-    fontSize: 80,
+    fontSize: 100,
     textAlign: 'center',
   },
 });
