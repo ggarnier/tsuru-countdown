@@ -93,13 +93,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   title: {
-    fontSize: 45,
+    fontSize: 40,
     textAlign: 'center',
     marginTop: 10,
     marginBottom: 40,
   },
   time: {
-    fontSize: 90,
+    fontSize: 70,
     textAlign: 'center',
   },
   image: {
