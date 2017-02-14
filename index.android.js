@@ -69,6 +69,7 @@ export default class TsuruCountdown extends Component {
     if (this.hasTimeLeft()) {
       return (
         <View style={styles.container}>
+          <Image source={require('./images/tsuru.png')} style={styles.logo} />
           <Text style={styles.title}>Tsuru Countdown</Text>
           <Text style={styles.time}>
             {this.formatRemainingTime()}
@@ -78,7 +79,7 @@ export default class TsuruCountdown extends Component {
     } else {
       return (
         <View style={styles.container}>
-          <Image source={require('./homer.jpg')} style={styles.image} />
+          <Image source={require('./images/homer.jpg')} style={styles.image} />
         </View>
       )
     }
@@ -101,6 +102,10 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 70,
     textAlign: 'center',
+  },
+  logo: {
+    width: 50,
+    height: 50,
   },
   image: {
     width: 350,
