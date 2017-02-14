@@ -48,6 +48,7 @@ export default class TsuruCountdown extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.title}>Tsuru Countdown</Text>
         <Text style={styles.time}>
           {this.formatRemainingTime()}
         </Text>
@@ -62,6 +63,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  title: {
+    fontSize: 45,
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 40,
   },
   time: {
     fontSize: 90,
