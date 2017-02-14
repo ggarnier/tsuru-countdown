@@ -12,6 +12,7 @@ import {
   View,
   Image
 } from 'react-native';
+import PushNotification from 'react-native-push-notification';
 
 export default class TsuruCountdown extends Component {
   constructor(props) {
@@ -19,6 +20,20 @@ export default class TsuruCountdown extends Component {
     this.finishTime = new Date(2017, 2, 2).getTime()
     this.state = {
       remainingTime: (this.finishTime - new Date().getTime()) / 1000
+    }
+
+    this.setupNotifications()
+  }
+
+  setupNotifications() {
+    if (this.hasTimeLeft()) {
+      const days = Math.floor((this.finishTime - new Date().getTime()) / (1000 * 60 * 60 * 24))
+      PushNotification.localNotificationSchedule({
+        title: "Tsuru Countdown",
+        message: `${days} days left`,
+        date: new Date(2017, 1, 15, 8, 0, 0),
+        repeatType: "day"
+      })
     }
   }
 
