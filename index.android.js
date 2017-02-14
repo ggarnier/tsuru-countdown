@@ -1,26 +1,36 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   StyleSheet,
   Text,
   View,
-  Image
-} from 'react-native';
-import PushNotification from 'react-native-push-notification';
+  Image,
+  TouchableHighlight
+} from 'react-native'
+import Router from 'react-native-simple-router'
+import PushNotification from 'react-native-push-notification'
 
 export default class TsuruCountdown extends Component {
+  render() {
+    const firstRoute = {
+      name: "Countdown",
+      component: CountdownPage
+    }
+
+    return (
+      <Router firstRoute={firstRoute} />
+    )
+  }
+}
+
+class CountdownPage extends Component {
   constructor(props) {
     super(props)
     this.finishTime = new Date(2017, 2, 2).getTime()
     this.state = {
       remainingTime: (this.finishTime - new Date().getTime()) / 1000
     }
+    this.configPage = this.configPage.bind(this)
 
     this.setupNotifications()
   }
@@ -65,17 +75,28 @@ export default class TsuruCountdown extends Component {
     return this.state.remainingTime > 0
   }
 
+  configPage() {
+    this.props.toRoute({
+      name: "Config",
+      component: ConfigPage
+    })
+  }
+
   render() {
     if (this.hasTimeLeft()) {
       return (
         <View style={styles.container}>
+          <TouchableHighlight onPress={this.configPage} underlayColor="transparent">
+            <Image source={require('./images/configs-icon.png')} style={{width: 30, height: 30}}/>
+          </TouchableHighlight>
+
           <Image source={require('./images/tsuru.png')} style={styles.logo} />
           <Text style={styles.title}>Tsuru Countdown</Text>
           <Text style={styles.time}>
             {this.formatRemainingTime()}
           </Text>
         </View>
-      );
+      )
     } else {
       return (
         <View style={styles.container}>
@@ -111,6 +132,14 @@ const styles = StyleSheet.create({
     width: 350,
     height: 197,
   },
-});
+})
 
-AppRegistry.registerComponent('TsuruCountdown', () => TsuruCountdown);
+class ConfigPage extends Component {
+  render() {
+    return (
+      <Text>Config page</Text>
+    )
+  }
+}
+
+AppRegistry.registerComponent('TsuruCountdown', () => TsuruCountdown)
