@@ -9,7 +9,8 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Image
 } from 'react-native';
 
 export default class TsuruCountdown extends Component {
@@ -45,15 +46,27 @@ export default class TsuruCountdown extends Component {
     return value < 10 ? `0${value}` : value
   }
 
+  hasTimeLeft() {
+    return this.state.remainingTime > 0
+  }
+
   render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Tsuru Countdown</Text>
-        <Text style={styles.time}>
-          {this.formatRemainingTime()}
-        </Text>
-      </View>
-    );
+    if (this.hasTimeLeft()) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.title}>Tsuru Countdown</Text>
+          <Text style={styles.time}>
+            {this.formatRemainingTime()}
+          </Text>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <Image source={require('./homer.jpg')} style={styles.image} />
+        </View>
+      )
+    }
   }
 }
 
@@ -73,6 +86,10 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 90,
     textAlign: 'center',
+  },
+  image: {
+    width: 350,
+    height: 197,
   },
 });
 
