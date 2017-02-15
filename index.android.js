@@ -123,12 +123,12 @@ const styles = StyleSheet.create({
     fontSize: 40,
     textAlign: 'center',
     marginTop: 10,
-    marginBottom: 40,
+    marginBottom: 20,
   },
   time: {
     fontSize: 70,
     textAlign: 'center',
-    marginBottom: 50,
+    marginBottom: 20,
   },
   logo: {
     width: 300,
@@ -142,8 +142,6 @@ const styles = StyleSheet.create({
   configIcon: {
     width: 30,
     height: 30,
-    marginBottom: 50,
-    marginLeft: 200,
   }
 })
 
@@ -184,14 +182,13 @@ class ConfigPage extends Component {
 
   render() {
     return (
-      <View>
-        <Text>Finish date:</Text>
-        <Text>{this.state.simpleDate.toDateString()}></Text>
+      <View style={styles.container}>
+        <Text style={{fontSize: 20}}>Finish date: {this.state.simpleDate.toLocaleDateString()}</Text>
 
         <TouchableWithoutFeedback
           onPress={this.showDatePicker.bind(this, 'simple', {date: this.state.simpleDate})}
         >
-          <Text>click to choose</Text>
+          <Image source={require('./images/calendar.png')} style={{marginTop: 50, width: 30, height: 30}} />
         </TouchableWithoutFeedback>
       </View>
     )
