@@ -13,12 +13,16 @@ import PushNotification from 'react-native-push-notification'
 export default class TsuruCountdown extends Component {
   render() {
     const firstRoute = {
-      name: "Countdown",
+      name: "Tsuru Countdown",
       component: CountdownPage
     }
 
     return (
-      <Router firstRoute={firstRoute} />
+      <Router
+        firstRoute={firstRoute}
+        headerStyle={{backgroundColor: '#222233'}}
+        backButtonComponent={BackButton}
+      />
     )
   }
 }
@@ -87,7 +91,7 @@ class CountdownPage extends Component {
       return (
         <View style={styles.container}>
           <TouchableHighlight onPress={this.configPage} underlayColor="transparent">
-            <Image source={require('./images/configs-icon.png')} style={{width: 30, height: 30}}/>
+            <Image source={require('./images/configs-icon.png')} style={styles.configIcon}/>
           </TouchableHighlight>
 
           <Image source={require('./images/tsuru.png')} style={styles.logo} />
@@ -132,6 +136,12 @@ const styles = StyleSheet.create({
     width: 350,
     height: 197,
   },
+  configIcon: {
+    width: 30,
+    height: 30,
+    marginBottom: 50,
+    marginLeft: 200,
+  }
 })
 
 class ConfigPage extends Component {
@@ -139,6 +149,12 @@ class ConfigPage extends Component {
     return (
       <Text>Config page</Text>
     )
+  }
+}
+
+class BackButton extends Component {
+  render() {
+    return <Image source={require('./images/back-icon.png')} style={{width: 20, height: 20}} />
   }
 }
 
