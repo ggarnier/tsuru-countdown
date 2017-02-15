@@ -94,8 +94,7 @@ class CountdownPage extends Component {
             <Image source={require('./images/configs-icon.png')} style={styles.configIcon}/>
           </TouchableHighlight>
 
-          <Image source={require('./images/tsuru.png')} style={styles.logo} />
-          <Text style={styles.title}>Tsuru Countdown</Text>
+          <Image source={require('./images/tsuru-logo.png')} style={styles.logo} />
           <Text style={styles.time}>
             {this.formatRemainingTime()}
           </Text>
@@ -127,10 +126,12 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 70,
     textAlign: 'center',
+    marginBottom: 50,
   },
   logo: {
-    width: 50,
-    height: 50,
+    width: 300,
+    height: 157,
+    marginBottom: 30,
   },
   image: {
     width: 350,
