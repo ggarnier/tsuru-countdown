@@ -5,7 +5,9 @@ import {
   Text,
   View,
   Image,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  DatePickerAndroid,
 } from 'react-native'
 import Router from 'react-native-simple-router'
 import PushNotification from 'react-native-push-notification'
@@ -146,9 +148,52 @@ const styles = StyleSheet.create({
 })
 
 class ConfigPage extends Component {
+  state = {
+    presetDate: new Date(2020, 4, 5),
+    simpleDate: new Date(2020, 4, 5),
+    spinnerDate: new Date(2020, 4, 5),
+    calendarDate: new Date(2020, 4, 5),
+    defaultDate: new Date(2020, 4, 5),
+    allDate: new Date(2020, 4, 5),
+    simpleText: 'pick a date',
+    spinnerText: 'pick a date',
+    calendarText: 'pick a date',
+    defaultText: 'pick a date',
+    minText: 'pick a date, no earlier than today',
+    maxText: 'pick a date, no later than today',
+    presetText: 'pick a date, preset to 2020/5/5',
+    allText: 'pick a date between 2020/5/1 and 2020/5/10',
+  };
+
+  showDatePicker = async (stateKey, options) => {
+    try {
+      var newState = {};
+      const {action, year, month, day} = await DatePickerAndroid.open(options);
+      if (action === DatePickerAndroid.dismissedAction) {
+        newState[stateKey + 'Text'] = 'dismissed';
+      } else {
+        var date = new Date(year, month, day);
+        newState[stateKey + 'Text'] = date.toLocaleDateString();
+        newState[stateKey + 'Date'] = date;
+      }
+      this.setState(newState);
+    } catch ({code, message}) {
+      console.warn(`Error in example '${stateKey}': `, message);
+    }
+  };
+
   render() {
     return (
-      <Text>Config page</Text>
+      <View>
+        <Text>Finish date:</Text>
+        <Text>{this.state.simpleDate.toDateString()}></Text>
+
+        <TouchableWithoutFeedback
+          onPress={this.showDatePicker.bind(this, 'simple', {date: this.state.simpleDate})}
+        >
+          <Text>click to choose</Text>
+        </TouchableWithoutFeedback>
+      </View>
     )
   }
 }
