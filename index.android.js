@@ -24,6 +24,7 @@ export default class TsuruCountdown extends Component {
         firstRoute={firstRoute}
         headerStyle={{backgroundColor: '#222233'}}
         backButtonComponent={BackButton}
+        rightCorner={ConfigButton}
       />
     )
   }
@@ -32,9 +33,10 @@ export default class TsuruCountdown extends Component {
 class CountdownPage extends Component {
   constructor(props) {
     super(props)
-    this.finishTime = new Date(2017, 2, 2).getTime()
+    const finishDate = new Date(2017, 2, 2)
     this.state = {
-      remainingTime: (this.finishTime - new Date().getTime()) / 1000
+      finishDate: finishDate
+      remainingTime: (finishDate.getTime() - new Date().getTime()) / 1000
     }
     this.configPage = this.configPage.bind(this)
 
@@ -43,7 +45,7 @@ class CountdownPage extends Component {
 
   setupNotifications() {
     if (this.hasTimeLeft()) {
-      const days = Math.floor((this.finishTime - new Date().getTime()) / (1000 * 60 * 60 * 24))
+      const days = Math.floor((this.state.finishDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
       PushNotification.localNotificationSchedule({
         title: "Tsuru Countdown",
         message: `${days} days left`,
@@ -59,7 +61,7 @@ class CountdownPage extends Component {
   }
 
   updateRemainingTime() {
-    this.setState({remainingTime: (this.finishTime - new Date().getTime()) / 1000})
+    this.setState({remainingTime: (this.state.finishDate.getTime() - new Date().getTime()) / 1000})
   }
 
   formatRemainingTime() {
@@ -167,26 +169,22 @@ class ConfigPage extends Component {
     try {
       var newState = {};
       const {action, year, month, day} = await DatePickerAndroid.open(options);
-      if (action === DatePickerAndroid.dismissedAction) {
-        newState[stateKey + 'Text'] = 'dismissed';
-      } else {
+      if (action !== DatePickerAndroid.dismissedAction) {
         var date = new Date(year, month, day);
-        newState[stateKey + 'Text'] = date.toLocaleDateString();
-        newState[stateKey + 'Date'] = date;
+        this.setState({finishDate: date});
       }
-      this.setState(newState);
     } catch ({code, message}) {
-      console.warn(`Error in example '${stateKey}': `, message);
+      console.warn('Error: ', message);
     }
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={{fontSize: 20}}>Finish date: {this.state.simpleDate.toLocaleDateString()}</Text>
+        <Text style={{fontSize: 20}}>Finish date: {this.state.finishDate.toLocaleDateString()}</Text>
 
         <TouchableWithoutFeedback
-          onPress={this.showDatePicker.bind(this, 'simple', {date: this.state.simpleDate})}
+          onPress={this.showDatePicker.bind(this, 'simple', {date: this.state.finishDate})}
         >
           <Image source={require('./images/calendar.png')} style={{marginTop: 50, width: 30, height: 30}} />
         </TouchableWithoutFeedback>
@@ -198,6 +196,25 @@ class ConfigPage extends Component {
 class BackButton extends Component {
   render() {
     return <Image source={require('./images/back-icon.png')} style={{width: 20, height: 20}} />
+  }
+}
+
+class ConfigButton extends Component {
+  configPage() {
+    this.props.toRoute({
+      name: "Config",
+      component: ConfigPage
+    })
+  }
+
+  render() {
+    return (
+      <View style={{flexDirection: 'row'}}>
+        <TouchableHighlight underlayColor="transparent" onPress={this.configPage}>
+          <Image source={require('./images/configs-icon.png')} style={styles.configIcon} />
+        </TouchableHighlight>
+      </View>
+    )
   }
 }
 
